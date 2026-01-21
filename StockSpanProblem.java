@@ -4,19 +4,19 @@ class StockSpanProblem {
 
     public ArrayList<Integer> calculateSpan(int[] arr) {
         ArrayList<Integer> res = new ArrayList<>();
+        Stack<Integer> st = new Stack<>();
         int n = arr.length;
 
-        res.add(1); // span for day 0 is always 1
-
-        for (int i = 1; i < n; i++) {
-            int curr = i - 1;
-
-            // jump backwards using already computed spans
-            while (curr >= 0 && arr[curr] <= arr[i]) {
-                curr -= res.get(curr);
+        for(int i=0;i<n;i++)
+        {
+            while(!st.isEmpty() && arr[st.peek()]<=arr[i])
+            {
+                st.pop();
             }
-
-            res.add(i - curr);
+            if(st.isEmpty()) res.add(i+1);
+            else res.add(i-st.peek());
+            
+            st.push(i);
         }
 
         return res;
